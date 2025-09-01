@@ -4,8 +4,6 @@ Este proyecto implementa un modelo de regresión lineal múltiple desde cero, si
 
 El modelo fue optimizado mediante gradiente descendiente por lotes y evaluado con métricas como MAE, R², bias y varianza de errores.
 
-Nota: En caso de que no tengas el dataset descargalo en el siguiente link [*Life Expectancy Data*](https://www.kaggle.com/datasets/kumarajarshi/life-expectancy-who/code) y sigue las instrucciones ed ejecución.
-
 ## Requisitos
 
 Para ejecutar el proyecto necesitas Python 3.x y las siguientes librerías:
@@ -23,7 +21,11 @@ pip install pandas matplotlib
 
 ## Ejecución
 
-1. Clona el repositorio. Descarga y ubica el dataset `Life Expectancy Data.csv` en la carpeta raíz.
+1. Clona el repositorio. Descarga y ubica el archivo `Life Expectancy Data.csv` en la carpeta raíz.
+
+   * Puedes obtener el dataset desde:
+     [*Life Expectancy Data – Kaggle*](https://www.kaggle.com/datasets/kumarajarshi/life-expectancy-who)
+     
 2. Ejecuta el archivo principal para entrenar el modelo con todas las variables:
 
 ```bash
@@ -36,4 +38,16 @@ python main.py
 python main_mr.py
 ```
 
-4. Los resultados (MAE, R², bias, varianza) se guardarán en consola y en archivos auxiliares (`errores_por_epoca.txt`, `complejidad_modelo_v_error.csv`).
+4. Los resultados (MAE, R², bias, varianza) se guardarán en consola y en archivos auxiliares (`errores_por_epoca.txt`, `complejidad_modelo.csv`).
+
+5. Visualiza las correlaciones entre variables:
+
+```bash
+python analizar_correlaciones.py
+```
+
+6. Genera las gráficas del error por época y de valores reales vs. predichos:
+
+```bash
+python graficas_resultados.py
+```
