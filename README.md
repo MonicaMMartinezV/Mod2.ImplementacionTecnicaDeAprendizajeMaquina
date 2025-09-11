@@ -11,12 +11,13 @@ Para ejecutar el proyecto necesitas Python 3.x y las siguientes librerías:
 ```bash
 pandas
 matplotlib
+scikit-learn
 ```
 
 Puedes instalarlas con:
 
 ```bash
-pip install pandas matplotlib
+pip install pandas matplotlib scikit-learn
 ```
 
 ## Ejecución
