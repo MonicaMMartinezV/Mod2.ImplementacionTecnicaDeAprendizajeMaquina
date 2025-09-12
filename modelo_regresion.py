@@ -83,45 +83,40 @@ def update(data, theta, b, Y, alpha):
     return theta, b
 
 
-def split_data(X, Y, test_ratio=0.2, seed=42):
-    
+def split_data_val(X, Y, val_ratio=0.2, test_ratio=0.2, seed=42):
     """
-    Divide los datos en conjuntos de entrenamiento y prueba según un test_ratio.
+    Divide los datos en entrenamiento, validación y prueba.
 
     Parámetros:
         X (list): matriz de características.
         Y (list): lista de valores objetivo.
-        test_ratio (float): proporción de datos para prueba.
+        val_ratio (float): proporción para validación.
+        test_ratio (float): proporción para prueba.
         seed (int): semilla para reproducibilidad.
 
     Retorna:
-        X_train, Y_train, X_test, Y_test
+        X_train, Y_train, X_val, Y_val, X_test, Y_test
     """
-
     import random
-
-    # Para que el resultado sea reproducible
     random.seed(seed)
     indices = list(range(len(X)))
-
-    # Mezcla aleatoriamente los índices
     random.shuffle(indices)
 
-    # Tamaño del conjunto de prueba
     test_size = int(len(X) * test_ratio)
+    val_size = int(len(X) * val_ratio)
 
-    # Índices para prueba
     test_idx = indices[:test_size]
+    val_idx = indices[test_size:test_size + val_size]
+    train_idx = indices[test_size + val_size:]
 
-    # Índices para entrenamiento
-    train_idx = indices[test_size:]
-
-    # Separar los datos según los índices    
     X_train = [X[i] for i in train_idx]
     Y_train = [Y[i] for i in train_idx]
+    X_val = [X[i] for i in val_idx]
+    Y_val = [Y[i] for i in val_idx]
     X_test = [X[i] for i in test_idx]
     Y_test = [Y[i] for i in test_idx]
-    return X_train, Y_train, X_test, Y_test
+
+    return X_train, Y_train, X_val, Y_val, X_test, Y_test
 
 
 def desnormalizar(val, mean, std):
