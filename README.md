@@ -1,11 +1,15 @@
-# Modelo para predicción de la esperanza de vida
+# Modelos Lineales y No Lineales para la Predicción de la Esperanza de Vida: Implementación Manual y Comparativa con Random Forest
 
 Este proyecto implementa dos modelos de regresión para predecir la esperanza de vida (Life Expectancy) a partir de factores de salud, educación, inmunización y economía, utilizando el dataset [*Life Expectancy Data*](https://www.kaggle.com/datasets/kumarajarshi/life-expectancy-who/code) de la OMS y la ONU.
 
-1. **Modelo manual:** Regresión lineal múltiple implementada desde cero, sin frameworks de machine learning.
-2. **Modelo con framework:** Regresión mediante Random Forest usando `scikit-learn`.
+## Modelos implementados
 
-Ambos modelos son evaluados con métricas como MAE, R², bias y varianza de errores. Además, se comparan gráficamente para identificar su grado de ajuste (underfit, overfit, fit), bias y varianza.
+1. **Modelo manual base:** Regresión lineal múltiple desde cero, optimizada con gradiente descendente y evaluada con MAE, R², bias y varianza.
+2. **Modelo manual mejorado (L2):** Incluye regularización Ridge (L2).
+3. **Modelo manual mejorado (Huber + L2 + PCA):** Incluye función de pérdida robusta, regularización L2 y reducción de dimensionalidad con PCA.
+4. **Modelo con framework (Random Forest):** Usando `scikit-learn`, permite capturar relaciones no lineales y mejorar precisión y generalización.
+
+Todos los modelos se evaluaron tanto en conjunto de prueba como de validación, considerando criterios como bias, varianza, y nivel de ajuste (underfit / fit / overfit).
 
 ## Requisitos
 
@@ -32,6 +36,8 @@ pip install pandas numpy matplotlib scikit-learn
 * `graficas_resultados.py`: Contiene todas las funciones de graficación (errores, métricas, comparativas, etc.).
 * `datos_life_expectancy.py`: Funciones para cargar y normalizar el dataset.
 * `modelo_regresion.py`: Implementación del algoritmo de regresión lineal múltiple desde cero.
+* `analizar_correlaciones.py`: Visualiza las correlaciones entre variables para análisis previo.
+* `pca.py`: Implementación de PCA
 
 ## Ejecución
 
@@ -40,25 +46,23 @@ pip install pandas numpy matplotlib scikit-learn
    Puedes obtener el dataset desde:
    [*Life Expectancy Data – Kaggle*](https://www.kaggle.com/datasets/kumarajarshi/life-expectancy-who)
 
-2. Para ejecutar el modelo **manual**:
+2. Para ejecutar el modelo manual con mejoras más actuales (Huber + L2 + PCA):
 
 ```bash
 python main.py
 ```
 
-3. Para ejecutar el modelo **con framework (Random Forest)**:
-
-```bash
-python modelo_regresion_framework.py
-```
-
-4. Para evaluar la evolución del desempeño del modelo manual según el número de features:
+3. Para ejecutar el análisis de complejidad del modelo (variando el número de variables):
 
 ```bash
 python main_mr.py
 ```
 
-Esto generará el archivo `complejidad_modelo.csv` y sus gráficas asociadas.
+4. Para ejecutar el modelo con framework (Random Forest):
+
+```bash
+python modelo_regresion_framework.py
+```
 
 5. Para visualizar las correlaciones entre variables:
 
@@ -68,21 +72,23 @@ python analizar_correlaciones.py
 
 6. Las gráficas se generan automáticamente al ejecutar cada modelo:
 
-   * Evolución del error por época
-   * Comparación entre valores reales y predichos
-   * Comparativa entre modelos
-   * Importancia de características (modelo con framework)
-   * Curva de complejidad del modelo
+* Evolución del error por época (entrenamiento, validación, test)
+* Comparación entre valores reales y predichos
+* Comparativa de métricas entre modelos
+* Metricas de complejidad del modelo (R², MAE, Bias, Varianza vs #features)
+* Importancia de variables (Random Forest)
+* Comparativas finales entre todas las versiones
 
 ## Salidas generadas
 
-* `errores_entrenamiento_train_val.txt`: Error de validación por época del modelo manual.
-* `complejidad_modelo.csv`: Métricas por número de features (modelo manual).
-* `metricas_modelo_manual.csv` y `metricas_modelo_framework.csv`: Métricas generales de ambos modelos.
-* Gráficas PNG: todas las gráficas generadas automáticamente (se guardan en el directorio raíz).
+* `errores_entrenamiento_train_val_test.txt`: errores por época del modelo manual.
+* `complejidad_modelo.csv`: métrica por número de variables (main\_mr.py).
+* `metricas_modelo_manual.csv`: métricas para modelos desde cero.
+* `metricas_modelo_framework.csv`: métricas para Random Forest.
+* Gráficas PNG en el directorio raíz.
 
 ## Evaluación de desempeño
 
-El proyecto también incluye un análisis completo del grado de ajuste de ambos modelos (bias, varianza, overfitting/underfitting) y el impacto del número de características en el rendimiento.
+El proyecto también incluye un análisis integral de los aspectos clave del comportamiento de los modelos. Se evaluaron el bias y la varianza para comprender tanto la tendencia sistemática de las predicciones como la estabilidad de los errores. Asimismo, se diagnosticó el nivel de ajuste del modelo, identificando si presentaba underfitting, overfitting o un ajuste adecuado. Se analizó el impacto de la regularización L2 (Ridge) sobre la estabilidad de los coeficientes, la reducción de errores y la mejora en la capacidad de generalización. Además, se exploraron los efectos del uso de PCA y la función de pérdida Huber, observando su capacidad para hacer el modelo más robusto frente a outliers y más eficiente computacionalmente al reducir la dimensionalidad del problema. Finalmente, se realizó una comparación exhaustiva entre todos los modelos desarrollados, resaltando cuál tuvo el mejor desempeño en términos de precisión, estabilidad y generalización. Todo esto se complementa con observaciones adicionales que enriquecen la comprensión y aplicación práctica de los modelos implementados.
 
-Este análisis está soportado por métricas cuantitativas y gráficas, y se encuentra documentado en el reporte correspondiente.
+Todo esto está documentado en el reporte técnico, con métricas cuantitativas y visualizaciones comparativas.
