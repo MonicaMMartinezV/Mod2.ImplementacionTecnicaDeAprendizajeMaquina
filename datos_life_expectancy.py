@@ -9,13 +9,7 @@ Flujo principal:
 - Selecciona un número definido de variables predictoras (num_features).
 - Calcula la media y desviación estándar de cada feature, normalizando sus valores.
 - Normaliza también la variable objetivo ("Life expectancy").
-
-Salidas:
-- X_final: matriz de características normalizadas (lista de listas).
-- Y_final: lista de valores objetivo normalizados.
-- y_mean, y_std: parámetros de normalización de la variable objetivo.
 """
-
 import pandas as pd
 
 def cargar_datos_normalizados(path="Life Expectancy Data.csv", num_features=23):
@@ -24,18 +18,7 @@ def cargar_datos_normalizados(path="Life Expectancy Data.csv", num_features=23):
     Carga datos desde un CSV, selecciona un número de características (features),
     elimina columnas irrelevantes y normaliza tanto las variables predictoras
     como la variable objetivo ("Life expectancy").
-
-    Parámetros:
-        path (str): ruta al archivo CSV.
-        num_features (int): número de características a incluir en el modelo.
-
-    Retorna:
-        X_final (list[list[float]]): matriz con features normalizadas.
-        Y_final (list[float]): lista con la variable objetivo normalizada.
-        y_mean (float): media original de la variable objetivo.
-        y_std (float): desviación estándar original de la variable objetivo.
     """
-    
     # Cargar el archivo CSV en un DataFrame
     df = pd.read_csv(path)
 

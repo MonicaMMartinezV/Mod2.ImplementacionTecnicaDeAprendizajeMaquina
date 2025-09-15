@@ -1,20 +1,14 @@
 """
-Script de entrenamiento y evaluación para regresión lineal múltiple (desde cero).
+Script de entrenamiento y evaluación para regresión lineal múltiple (implementación manual).
 
-Flujo principal:
-- Carga y normaliza datos (X, Y) con un número configurable de features.
-- Separa en train/test.
-- Entrena con gradiente descendente (funciones MSE y update).
-- Desnormaliza predicciones para evaluar en escala real.
-- Calcula métricas (MAE, R², varianza de errores).
-- Persiste trazas de entrenamiento y curva de error por época.
-- Registra la relación complejidad (N° de features) vs desempeño.
-
-Salidas:
-- Archivo CSV "complejidad_modelo.csv" con: N_Features, MAE, R2, Bias, Varianza
-- Archivo "errores_por_epoca.txt" con el MSE por época (para graficar).
+Flujo:
+- Carga datos normalizados (X, Y) para distintas cantidades de features.
+- Entrena modelo con gradiente descendente.
+- Evalúa sobre validación y prueba.
+- Calcula métricas: MAE, R², Bias, Varianza.
+- Guarda curvas de error y resultados de complejidad.
+- Grafica desempeño vs número de features.
 """
-
 from datos_life_expectancy import cargar_datos_normalizados
 from graficas_resultados import (
     calcular_varianza_errores,
@@ -25,31 +19,28 @@ from modelo_regresion import (
     functionHyp,
     MSE,
     update,
-    split_data_val,
+    split_data,
     desnormalizar,
     calcular_MAE,
     calcular_R2,
 )
 
 def main(num_features):
-
     """
-    Entrena un modelo con 'num_features' columnas de entrada, registra métricas y
-    guarda archivos de trazas.
+    Entrena un modelo de regresión lineal con 'num_features' columnas de entrada.
+    Registra métricas clave y guarda trazas de entrenamiento.
     """
-
-    # Mensaje de inicio (muestra # de features efectivas sin incluir el target)
     print(f"\n--- Entrenando con {num_features-1} features ---")
-
-    # Cargar y normalizar datos (X_final, Y_final) y parámetros de normalización de Y
+    
+    # Carga y particiona datos
     X_final, Y_final, y_mean, y_std = cargar_datos_normalizados(num_features=num_features)
-    X_train, Y_train, X_val, Y_val, X_test, Y_test = split_data_val(X_final, Y_final)
+    X_train, Y_train, X_val, Y_val, X_test, Y_test = split_data(X_final, Y_final)
 
-    # Inicialización de parámetros del modelo
+    # Inicialización
     theta = [0.0] * len(X_train[0])
     b = 0.0
-    alpha = 0.01
-    epoc = 1000
+    alpha = 0.005
+    epoc = 3000
     errores_train = []
     errores_val = []
 
@@ -103,9 +94,9 @@ def main(num_features):
 with open("complejidad_modelo.csv", "w") as f_cme:
     f_cme.write("N_Features,MAE_Test,R2_Test,MAE_Val,R2_Val,Bias,Varianza\n")
 
-# Barrido de complejidad: entrena el modelo con distintos números de features.
-# Se pasa 'num_features + 1' a main para que el print muestre 'num_features - 1' (excluyendo target).
+# Evaluar modelos con distinta cantidad de features
 for num_features in [2, 4, 8, 12, 16, 20, 22]:
     main(num_features+1)
 
+# Graficar evolución del desempeño vs complejidad
 graficar_complejidad_vs_metricas("complejidad_modelo.csv")

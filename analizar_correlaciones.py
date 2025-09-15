@@ -9,7 +9,6 @@ Flujo principal:
 - Imprime en consola la correlación de cada variable respecto a la variable objetivo.
 - Genera y guarda un heatmap de la matriz de correlación como "matriz_correlacion.png".
 """
-
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -20,10 +19,6 @@ def graficar_matriz_correlacion(
     Lee un archivo CSV, calcula la matriz de correlación de las variables numéricas
     y la grafica como un mapa de calor. Además, imprime las correlaciones ordenadas
     respecto a una variable objetivo.
-    
-    Parámetros:
-        path (str): Ruta al archivo CSV. Por defecto "Life Expectancy Data.csv".
-        target (str): Nombre de la variable objetivo para analizar su correlación.
     """
 
     # Leer el archivo CSV en un DataFrame
